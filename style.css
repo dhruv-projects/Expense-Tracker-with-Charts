@@ -1,0 +1,408 @@
+/* ========================================
+   CSS RESET & CUSTOM PROPERTIES
+   ======================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --clr-bg: #f0f2f5;
+  --clr-surface: #ffffff;
+  --clr-primary: #4f46e5;
+  --clr-primary-hover: #4338ca;
+  --clr-income: #16a34a;
+  --clr-income-light: #dcfce7;
+  --clr-expense: #dc2626;
+  --clr-expense-light: #fee2e2;
+  --clr-balance: #0369a1;
+  --clr-balance-light: #e0f2fe;
+  --clr-danger: #dc2626;
+  --clr-border: #e2e8f0;
+  --clr-text: #1e293b;
+  --clr-text-muted: #64748b;
+  --clr-success: #16a34a;
+  --radius: 12px;
+  --shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.05);
+  --shadow-md: 0 4px 6px rgba(0,0,0,.07), 0 10px 25px rgba(0,0,0,.08);
+  --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --transition: .2s ease;
+}
+
+/* ========================================
+   BASE
+   ======================================== */
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--clr-bg);
+  color: var(--clr-text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+.app-header {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  color: #fff;
+  text-align: center;
+  padding: 2rem 1rem 2.5rem;
+}
+
+.app-header h1 {
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -.5px;
+}
+
+.tagline {
+  margin-top: .4rem;
+  font-size: .95rem;
+  opacity: .85;
+}
+
+/* ========================================
+   LAYOUT
+   ======================================== */
+.container {
+  max-width: 1100px;
+  margin: -1.2rem auto 2rem;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 720px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+/* ========================================
+   SUMMARY CARDS
+   ======================================== */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 520px) {
+  .summary-cards { grid-template-columns: 1fr; }
+}
+
+.card {
+  background: var(--clr-surface);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  border-left: 4px solid transparent;
+}
+
+.card--income  { border-left-color: var(--clr-income);  background: var(--clr-income-light); }
+.card--expense { border-left-color: var(--clr-expense); background: var(--clr-expense-light); }
+.card--balance { border-left-color: var(--clr-balance); background: var(--clr-balance-light); }
+
+.card__label {
+  font-size: .8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--clr-text-muted);
+}
+
+.card__amount {
+  font-size: clamp(1.3rem, 3vw, 1.7rem);
+  font-weight: 700;
+}
+
+.card--income  .card__amount { color: var(--clr-income); }
+.card--expense .card__amount { color: var(--clr-expense); }
+.card--balance .card__amount { color: var(--clr-balance); }
+
+/* ========================================
+   MONTH FILTER
+   ======================================== */
+.month-filter {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  flex-wrap: wrap;
+}
+
+.month-filter label {
+  font-weight: 600;
+  font-size: .9rem;
+}
+
+.month-filter select {
+  padding: .45rem .75rem;
+  border: 1px solid var(--clr-border);
+  border-radius: 8px;
+  font-size: .9rem;
+  background: var(--clr-surface);
+  color: var(--clr-text);
+  cursor: pointer;
+}
+
+/* ========================================
+   PANEL (card wrapper)
+   ======================================== */
+.panel {
+  background: var(--clr-surface);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.panel h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  color: var(--clr-text);
+}
+
+/* ========================================
+   FORM
+   ======================================== */
+.field {
+  margin-bottom: 1rem;
+}
+
+.field label {
+  display: block;
+  font-size: .85rem;
+  font-weight: 600;
+  margin-bottom: .35rem;
+  color: var(--clr-text-muted);
+}
+
+.field input,
+.field select {
+  width: 100%;
+  padding: .55rem .75rem;
+  border: 1.5px solid var(--clr-border);
+  border-radius: 8px;
+  font-size: .95rem;
+  color: var(--clr-text);
+  background: var(--clr-surface);
+  transition: border-color var(--transition), box-shadow var(--transition);
+  outline: none;
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: var(--clr-primary);
+  box-shadow: 0 0 0 3px rgba(79,70,229,.15);
+}
+
+/* :user-invalid — show errors only after user interaction */
+.field input:user-invalid,
+.field select:user-invalid {
+  border-color: var(--clr-expense);
+  background: #fff5f5;
+}
+
+/* ========================================
+   BUTTONS
+   ======================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: .9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.btn:active { transform: scale(.97); }
+
+.btn--primary {
+  width: 100%;
+  justify-content: center;
+  background: var(--clr-primary);
+  color: #fff;
+  margin-top: .5rem;
+}
+
+.btn--primary:hover { background: var(--clr-primary-hover); }
+
+.btn--danger {
+  background: var(--clr-expense-light);
+  color: var(--clr-expense);
+}
+
+.btn--danger:hover { background: #fecaca; }
+
+.btn--icon {
+  padding: .3rem .55rem;
+  border-radius: 6px;
+  background: var(--clr-expense-light);
+  color: var(--clr-expense);
+  font-size: .8rem;
+}
+
+.btn--sm { font-size: .8rem; padding: .4rem .85rem; }
+
+/* ========================================
+   CHART TABS
+   ======================================== */
+.chart-tabs {
+  display: flex;
+  gap: .5rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--clr-border);
+  padding-bottom: .5rem;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  font-size: .875rem;
+  font-weight: 600;
+  color: var(--clr-text-muted);
+  padding: .35rem .7rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.tab-btn:hover { background: var(--clr-bg); color: var(--clr-text); }
+
+.tab-btn--active {
+  background: var(--clr-primary);
+  color: #fff;
+}
+
+.tab-btn--active:hover { background: var(--clr-primary-hover); color: #fff; }
+
+canvas {
+  max-height: 300px;
+  width: 100% !important;
+}
+
+.chart-empty {
+  text-align: center;
+  color: var(--clr-text-muted);
+  padding: 2rem 0;
+  font-size: .9rem;
+}
+
+/* ========================================
+   TRANSACTION TABLE
+   ======================================== */
+.list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid var(--clr-border);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .875rem;
+}
+
+thead {
+  background: var(--clr-bg);
+}
+
+th {
+  padding: .75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: .8rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--clr-text-muted);
+  white-space: nowrap;
+}
+
+td {
+  padding: .75rem 1rem;
+  border-top: 1px solid var(--clr-border);
+  vertical-align: middle;
+}
+
+tbody tr:hover { background: #f8fafc; }
+
+.badge {
+  display: inline-block;
+  padding: .2rem .6rem;
+  border-radius: 999px;
+  font-size: .75rem;
+  font-weight: 600;
+}
+
+.badge--income  { background: var(--clr-income-light);  color: var(--clr-income); }
+.badge--expense { background: var(--clr-expense-light); color: var(--clr-expense); }
+
+.amount--income  { color: var(--clr-income);  font-weight: 700; }
+.amount--expense { color: var(--clr-expense); font-weight: 700; }
+
+.empty-state {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: var(--clr-text-muted);
+  font-size: .9rem;
+}
+
+/* ========================================
+   TOAST
+   ======================================== */
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: #1e293b;
+  color: #fff;
+  padding: .75rem 1.25rem;
+  border-radius: 10px;
+  font-size: .875rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .3s ease, transform .3s ease;
+  pointer-events: none;
+  z-index: 999;
+  max-width: 280px;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}

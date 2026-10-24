@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expense Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="app-header">
+    <h1>💰 Expense Tracker</h1>
+    <p class="tagline">Track your income &amp; expenses with ease</p>
+  </header>
+
+  <!-- ===== SUMMARY CARDS ===== -->
+  <main class="container">
+    <section class="summary-cards" aria-label="Financial summary">
+      <div class="card card--income">
+        <span class="card__label">Total Income</span>
+        <span class="card__amount" id="total-income">₹0.00</span>
+      </div>
+      <div class="card card--expense">
+        <span class="card__label">Total Expenses</span>
+        <span class="card__amount" id="total-expense">₹0.00</span>
+      </div>
+      <div class="card card--balance">
+        <span class="card__label">Balance</span>
+        <span class="card__amount" id="total-balance">₹0.00</span>
+      </div>
+    </section>
+
+    <!-- ===== MONTH FILTER ===== -->
+    <section class="month-filter" aria-label="Month filter">
+      <label for="month-select">📅 Filter by Month:</label>
+      <select id="month-select" autocomplete="off">
+        <option value="all">All Time</option>
+      </select>
+    </section>
+
+    <!-- ===== MAIN GRID ===== -->
+    <div class="grid">
+
+      <!-- ADD TRANSACTION FORM -->
+      <section class="panel" aria-labelledby="form-heading">
+        <h2 id="form-heading">Add Transaction</h2>
+        <form id="transaction-form" novalidate>
+
+          <!-- Type -->
+          <div class="field">
+            <label for="type">Type</label>
+            <select id="type" name="type" required autocomplete="off">
+              <option value="">-- Select --</option>
+              <option value="income">Income</option>
+              <option value="expense">Expense</option>
+            </select>
+          </div>
+
+          <!-- Category -->
+          <div class="field">
+            <label for="category">Category</label>
+            <select id="category" name="category" required autocomplete="off">
+              <option value="">-- Select --</option>
+              <optgroup label="Income">
+                <option value="Salary">Salary</option>
+                <option value="Freelance">Freelance</option>
+                <option value="Investment">Investment</option>
+                <option value="Gift">Gift</option>
+                <option value="Other Income">Other Income</option>
+              </optgroup>
+              <optgroup label="Expense">
+                <option value="Food">Food</option>
+                <option value="Transport">Transport</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Bills">Bills</option>
+                <option value="Health">Health</option>
+                <option value="Education">Education</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Rent">Rent</option>
+                <option value="Other Expense">Other Expense</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <!-- Description -->
+          <div class="field">
+            <label for="description">Description</label>
+            <input
+              type="text"
+              id="description"
+              name="description"
+              placeholder="e.g. Monthly salary"
+              maxlength="80"
+              required
+              autocomplete="off"
+            />
+          </div>
+
+          <!-- Amount -->
+          <div class="field">
+            <label for="amount">Amount (₹)</label>
+            <input
+              type="number"
+              id="amount"
+              name="amount"
+              placeholder="0.00"
+              min="0.01"
+              step="0.01"
+              required
+              autocomplete="off"
+            />
+          </div>
+
+          <!-- Date -->
+          <div class="field">
+            <label for="date">Date</label>
+            <input
+              type="date"
+              id="date"
+              name="date"
+              required
+              autocomplete="off"
+            />
+          </div>
+
+          <button type="submit" class="btn btn--primary">➕ Add Transaction</button>
+        </form>
+      </section>
+
+      <!-- CHARTS PANEL -->
+      <section class="panel" aria-labelledby="charts-heading">
+        <h2 id="charts-heading">Charts</h2>
+
+        <div class="chart-tabs" role="tablist" aria-label="Chart tabs">
+          <button role="tab" aria-selected="true"  aria-controls="tab-monthly"  id="btn-monthly"  class="tab-btn tab-btn--active">Monthly Totals</button>
+          <button role="tab" aria-selected="false" aria-controls="tab-category" id="btn-category" class="tab-btn">Category Breakdown</button>
+        </div>
+
+        <div id="tab-monthly" role="tabpanel" aria-labelledby="btn-monthly">
+          <canvas id="monthly-chart" aria-label="Monthly income vs expense bar chart" role="img"></canvas>
+          <p class="chart-empty" id="monthly-empty" hidden>No data yet. Add some transactions!</p>
+        </div>
+
+        <div id="tab-category" role="tabpanel" aria-labelledby="btn-category" hidden>
+          <canvas id="category-chart" aria-label="Category expense breakdown doughnut chart" role="img"></canvas>
+          <p class="chart-empty" id="category-empty" hidden>No expense data yet.</p>
+        </div>
+      </section>
+
+    </div><!-- /.grid -->
+
+    <!-- ===== TRANSACTION LIST ===== -->
+    <section class="panel" aria-labelledby="list-heading">
+      <div class="list-header">
+        <h2 id="list-heading">Transactions</h2>
+        <button class="btn btn--danger btn--sm" id="clear-all-btn" aria-label="Clear all transactions">🗑 Clear All</button>
+      </div>
+
+      <div class="table-wrapper" role="region" aria-label="Transaction list" tabindex="0">
+        <table id="transaction-table" aria-describedby="list-heading">
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Description</th>
+              <th scope="col">Category</th>
+              <th scope="col">Type</th>
+              <th scope="col">Amount</th>
+              <th scope="col"><span class="sr-only">Actions</span></th>
+            </tr>
+          </thead>
+          <tbody id="transaction-body">
+            <!-- Rows injected by JS -->
+          </tbody>
+        </table>
+        <p class="empty-state" id="empty-state">No transactions yet. Add your first one above!</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== TOAST NOTIFICATION ===== -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
